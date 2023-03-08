@@ -2,36 +2,17 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Bulls and Cows</title>
+    <title>Number Games</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div class="wrapper">
-    <div class="header"th:switch="${gametype}">
+    <div class="header" th:switch="${gametype}">
         <h1 th:case="'bc'">Bulls and Cows</h1>
         <h1 th:case="'gg'">Guess the Number</h1>
         <h1 th:case="*">Let's Play a Game</h1>
     </div>
-    <div class="main">
-        <div class="stats">
-            <p><strong> High Score: </strong></p>
-            <p th:text="${highscore} ?: 'None'"></p>
-            <br/>
-            <table>
-                <thead>
-                <tr>
-                    <th>
-                        <Strong>Previous guesses:</strong>
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="g: ${pastGuesses}">
-                    <td th:text="${g}"></td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+
         <div class="game">
             <div th:switch="${gametype}">
                 <p th:case="'bc'">Guess the digits. Bull means right digit in the right place. Cow means right digit wrong place.</p>
@@ -39,7 +20,7 @@
             </div>
             <p th:text="${outcome} ?: ' '"></p>
             <div th:unless="${gametype=='none'}">
-                <form th:action="@{/bullsandcows}" th:object="${guess}" method="post">
+                <form th:action="@{/game}" th:object="${guess}" method="post">
                     <input type="text" th:field="*{a}" size="8" name="a" value="0"/>
                     <input th:if="${gametype == 'bc'}" type="text" th:field="*{b}" size="8" name="b" value="0"/>
                     <input th:if="${gametype == 'bc'}" type="text" th:field="*{c}" size="8" name="c" value="0"/>
@@ -51,20 +32,49 @@
 
 
             </div>
-            <div th:if="${gametype =='none'}">
-                <p>Game Select</p><br />
-                <form th:action="@{/bullsandcows}" th:object="${guess}" method="post">
+            <div>
+                <br />
+                <p th:if="${gametype =='none'}">Game Select</p>
+                <p th:unless="${gametype =='none'}">New Game?</p>
+
+                <form th:action="@{/game}" th:object="${guess}" method="post">
                     <input th:field="*{game}" type="radio" id="bc" name="f" value="bc">
                     <label for="bc">Bulls and Cows</label><br>
                     <input th:field="*{game}" type="radio" id="gg" name="f" value="gg">
                     <label for="gg">Number Guessing Game</label><br>
-                    <input type="submit" value="Lets Play!"/>
+                    <input th:if="${gametype =='none'}" type="submit" value="Lets Play!"/>
+                    <input th:unless="${gametype =='none'}" type="submit" value="Lets Play!"/>
+
                 </form>
             </div>
         </div>
-
-
+    <div class="stats">
+        <table>
+            <thead>
+            <th><strong> High Score: </strong></th>
+            </thead>
+            <tr>
+                <td th:text="${highscore} ?: '-'"></td>
+            </tr>
+        </table>
+        <br />
+        <table>
+            <thead>
+            <tr>
+                <th>
+                    <Strong>Previous guesses:</strong>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="g: ${pastGuesses}">
+                <td th:text="${g}"></td>
+            </tr>
+            </tbody>
+        </table>
     </div>
+
+
 </div>
 
 </body>

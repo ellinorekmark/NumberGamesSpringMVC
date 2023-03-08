@@ -1,6 +1,18 @@
 package se.iths.numbergamesspringmvc;
 
 public class Guess {
+
+
+    public String a;
+    public String b;
+    public String c;
+
+    public void setGame(String game) {
+        this.game = game;
+    }
+
+    public String d;
+
     public void setA(String a) {
         this.a = a;
     }
@@ -17,23 +29,11 @@ public class Guess {
         this.d = d;
     }
 
-    public String a;
-    public String b;
-    public String c;
-
-    public void setGame(String game) {
-        this.game = game;
-    }
-
-    public String d;
-
     public String getGame() {
         return game;
     }
 
     public String game;
-
-
 
     public Guess(String a, String b, String c, String d) {
         this.a = a;
